@@ -1,0 +1,96 @@
+version: "3.9"
+services:
+
+  products-service:
+    restart: always
+    container_name: products-service
+    build: products-service
+    environment:
+      DB_USER: ${DB_USER}
+      DB_PASS: ${DB_PASS}
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+      DB_NAME: ${PRODUCTS_SERVICE_DBNAME}
+      ACTIVE_MQ_USER: ${ACTIVE_MQ_USER}
+      ACTIVE_MQ_PASSWORD: ${ACTIVE_MQ_PASSWORD}
+    depends_on:
+      - db-service
+    networks:
+      - app-network
+
+  sales-service:
+    restart: always
+    container_name: sales-service
+    build: sales-service
+    environment:
+      DB_USER: ${DB_USER}
+      DB_PASS: ${DB_PASS}
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+      DB_NAME: ${SALES_SERVICE_DBNAME}
+      ACTIVE_MQ_USER: ${ACTIVE_MQ_USER}
+      ACTIVE_MQ_PASSWORD: ${ACTIVE_MQ_PASSWORD}
+    depends_on:
+      - db-service
+    networks:
+      - app-network
+
+  users-service:
+    restart: always
+    container_name: users-service
+    build: users-service
+    environment:
+      DB_USER: ${DB_USER}
+      DB_PASS: ${DB_PASS}
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+      DB_NAME: ${USERS_SERVICE_DBNAME}
+      ACTIVE_MQ_USER: ${ACTIVE_MQ_USER}
+      ACTIVE_MQ_PASSWORD: ${ACTIVE_MQ_PASSWORD}
+    depends_on:
+      - db-service
+    networks:
+      - app-network
+
+  messaging-service:
+    container_name: messaging-service
+    build: messaging-service
+    restart: always
+    environment:
+      ACTIVEMQ_CONNECTION_USER: admin
+      ACTIVEMQ_CONNECTION_PASSWORD: admin
+    networks:
+      - app-network
+
+  db-service:
+    container_name: db-service
+    build: db-service
+    restart: always
+    environment:
+      MARIADB_ROOT_PASSWORD: ${DB_PASS}
+      MARIADB_USER: ${DB_USER}
+      MARIADB_PASSWORD: ${DB_PASS}
+      MARIADB_DATABASE: application
+    networks:
+      - app-network
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
+    restart: always
+    ports:
+      - "8004:80"
+    environment:
+      PMA_HOST: db-service
+      PMA_PORT: 3306
+      MARIADB_ROOT_PASSWORD: ${DB_PASS}
+    depends_on:
+      - db-service
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    external: false
+    name: app-network
+
