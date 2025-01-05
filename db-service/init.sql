@@ -8,4 +8,5 @@ GRANT ALL PRIVILEGES ON `products_service`.* TO 'admin'@'%';
 GRANT ALL PRIVILEGES ON products_service.* TO 'admin'@'%' IDENTIFIED BY 'admin';
 GRANT ALL PRIVILEGES ON `sales_service`.* TO 'admin'@'%';
 GRANT ALL PRIVILEGES ON sales_service.* TO 'admin'@'%' IDENTIFIED BY 'admin';
+GRANT FILE ON *.* TO 'admin'@'%';
 FLUSH PRIVILEGES;

@@ -1,3 +1,4 @@
 FROM mariadb:10.6
-
+COPY products_data.csv /app/products_data.csv
+COPY users_data.csv /app/users_data.csv
 ADD init.sql /docker-entrypoint-initdb.d/ddl.sql
