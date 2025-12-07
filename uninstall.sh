@@ -8,7 +8,7 @@ docker rm $(docker ps -a -q)
 
 # Remove all images
 docker rmi starschematutorialdemo-sales-service
-docker rmi starschematutorialdemo-products-service
-docker rmi starschematutorialdemo-users-service
+docker rmi starschematutorialdemo-product-service
+docker rmi starschematutorialdemo-user-service
 docker rmi starschematutorialdemo-db-service
 docker rmi starschematutorialdemo-messaging-service

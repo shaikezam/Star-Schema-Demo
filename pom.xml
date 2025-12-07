@@ -12,18 +12,26 @@
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
         <java.version>21</java.version>
-        <spring.boot.version>3.4.1</spring.boot.version>
-        <mariadb-java-client.version>3.3.3</mariadb-java-client.version>
+        <spring.boot.version>3.5.8</spring.boot.version>
+        <mariadb-java-client.version>3.5.6</mariadb-java-client.version>
         <lombok.version>1.18.30</lombok.version>
-        <flyway-core.version>10.21.0</flyway-core.version>
+        <flyway-core.version>11.18.0</flyway-core.version>
         <mapstruct.version>1.5.5.Final</mapstruct.version>
         <lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
-        <caffeine.version>3.1.8</caffeine.version>
         <jakarta.validation-api.version>3.1.0</jakarta.validation-api.version>
         <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
+        <spring.version>6.2.14</spring.version>
+        <jackson-databind.version>2.17.0</jackson-databind.version>
+        <slf4j-api.version>2.0.17</slf4j-api.version>
     </properties>
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-context</artifactId>
+                <version>${spring.version}</version>
+                <scope>provided</scope>
+            </dependency>
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-web</artifactId>
@@ -41,10 +49,13 @@
             </dependency>
             <dependency>
                 <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-dependencies</artifactId>
+                <artifactId>spring-boot-starter-cache</artifactId>
                 <version>${spring.boot.version}</version>
-                <scope>import</scope>
-                <type>pom</type>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>2.17.0</version>
             </dependency>
             <dependency>
                 <groupId>org.mariadb.jdbc</groupId>
@@ -56,6 +67,11 @@
                 <artifactId>lombok</artifactId>
                 <version>${lombok.version}</version>
                 <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>${slf4j-api.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.flywaydb</groupId>
@@ -78,21 +94,34 @@
                 <version>{mapstruct.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.github.ben-manes.caffeine</groupId>
-                <artifactId>caffeine</artifactId>
-                <version>${caffeine.version}</version>
-            </dependency>
-            <dependency>
                 <groupId>jakarta.validation</groupId>
                 <artifactId>jakarta.validation-api</artifactId>
                 <version>${jakarta.validation-api.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.shaikezam</groupId>
+                <artifactId>utils</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.shaikezam</groupId>
+                <artifactId>product-service-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.shaikezam</groupId>
+                <artifactId>user-service-api</artifactId>
+                <version>${project.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
     <modules>
         <module>sales-service</module>
-        <module>users-service</module>
-        <module>products-service</module>
+        <module>user-service</module>
+        <module>product-service</module>
+        <module>utils</module>
+        <module>product-service-api</module>
+        <module>user-service-api</module>
     </modules>
     <build>
         <pluginManagement>
@@ -107,6 +136,7 @@
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>${maven-compiler-plugin.version}</version>
                     <configuration>
+                        <parameters>true</parameters>
                         <annotationProcessorPaths>
                             <path>
                                 <groupId>org.mapstruct</groupId>

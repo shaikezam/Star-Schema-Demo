@@ -1,10 +1,12 @@
 version: "3.9"
 services:
 
-  products-service:
+  product-service:
     restart: always
-    container_name: products-service
-    build: products-service
+    container_name: product-service
+    build: product-service
+    ports:
+      - "8001:8080"
     environment:
       DB_USER: ${DB_USER}
       DB_PASS: ${DB_PASS}
@@ -22,6 +24,8 @@ services:
     restart: always
     container_name: sales-service
     build: sales-service
+    ports:
+      - "8002:8080"
     environment:
       DB_USER: ${DB_USER}
       DB_PASS: ${DB_PASS}
@@ -35,10 +39,12 @@ services:
     networks:
       - app-network
 
-  users-service:
+  user-service:
     restart: always
-    container_name: users-service
-    build: users-service
+    container_name: user-service
+    build: user-service
+    ports:
+      - "8003:8080"
     environment:
       DB_USER: ${DB_USER}
       DB_PASS: ${DB_PASS}

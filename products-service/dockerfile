@@ -1,7 +1,0 @@
-FROM alpine:edge
-RUN apk add --no-cache openjdk21
-RUN apk --no-cache add curl
-EXPOSE 8080
-COPY target/products-service.jar /app/products-service.jar
-WORKDIR /app
-ENTRYPOINT ["java","-jar","products-service.jar"]
